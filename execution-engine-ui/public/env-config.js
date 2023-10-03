@@ -1,0 +1,8 @@
+window._env_ = {
+  BACKEND_BASE_URL: "http://localhost:8083/api/v1",
+  AUTH_ENABLED: "false",
+  OIDC_AUTHORITY:
+    "https://login.microsoftonline.com/4e3f7dfb-4248-4fae-ba2a-b50a972bfb33/v2.0",
+  OIDC_CLIENT_ID: "234e6c40-8451-49c6-a99e-4cb8fff36a4b",
+  OIDC_REDIRECT_URI: "http://localhost:4200/deck-portal",
+};

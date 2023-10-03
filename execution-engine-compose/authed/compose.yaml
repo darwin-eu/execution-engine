@@ -1,0 +1,101 @@
+version: '3.8'
+
+networks:
+  execution_network:
+    name: execution_network
+
+services:
+  
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"
+#      - "433:433"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+#      - /etc/letsencrypt/live/YOUR SERVER NAME/fullchain.pem:/etc/nginx/fullchain.pem \
+#      - /etc/letsencrypt/live/YOUR SERVER NAME/privkey.pem:/etc/nginx/privkey.pem \
+    networks: 
+      - execution_network
+    depends_on:
+      engine-api:
+        condition: service_healthy
+        
+  engine-ui:
+    image: "execution-engine-ui:latest"
+    environment:
+      - BACKEND_BASE_URL=http://localhost/api/v1
+      - AUTH_ENABLED=true
+      - OIDC_AUTHORITY=http://localhost/auth/realms/execution-engine
+      - OIDC_CLIENT_ID=execution-engine-client-id
+      - OIDC_REDIRECT_URI=http://localhost
+    networks: 
+      - execution_network
+  
+  engine-api:
+    image: "execution-engine-api:latest"
+    restart: always
+    environment:
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://engine_db:5432/execution_engine
+      - AUTHENTICATION_ENABLED=true
+      - AUTHENTICATION_USERINFO=http://keycloak:8080/auth/realms/execution-engine/protocol/openid-connect/userinfo
+      - AUTHENTICATION_ISSUER=http://keycloak:8080/
+      - ENCRYPTION_KEY=PleaseEnterANew32CharacterString
+    volumes:
+      - ./studies:/app/files
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - execution_network
+    healthcheck:
+      test: "exit 0"
+      interval: 20s
+      timeout: 5s
+      retries: 2
+      start_period: 30s
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:22.0
+    restart: always
+    networks: 
+      - execution_network
+    environment:
+      - KEYCLOAK_ADMIN=The.Admin.Username
+      - KEYCLOAK_ADMIN_PASSWORD=The.Admin.Pwd
+      - KC_DB_PASSWORD=postgres
+      - KC_DB_USERNAME=postgres
+      - KC_DB_URL_HOST=engine_db
+      - KC_HOSTNAME_STRICT_HTTPS=false
+    command: ["start", "--http-relative-path /auth", "--health-enabled=true", "--db postgres", "--hostname localhost", "--spi-sticky-session-encoder-infinispan-should-attach-route=false", "--proxy edge"]
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  db:
+    container_name: engine_db
+    image: "postgres:15.4"
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=execution_engine,keycloak
+    networks:
+      - execution_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./postgres-script:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 6s
+      timeout: 6s
+      retries: 10
+
+volumes: 
+  db-data:
+  

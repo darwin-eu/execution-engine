@@ -1,0 +1,55 @@
+# Docker
+# Build and push an image to Azure Container Registry
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+pr: none
+
+resources:
+- repo: self
+
+variables:
+
+  - group: "dev-deck-shared-variables"
+  - name: resource-group-name
+    value: $[variables.rgName]
+  - name: resource-svcDevopsConnection
+    value: $[variables.svcDevopsConnection]
+    
+  # Container registry service connection established during pipeline creation
+  - name: dockerRegistryServiceConnection
+    value: 'execution-engine-connection'
+  - name: imageRepository
+    value: 'execution-engine-api'
+  - name: containerRegistry
+    value: 'executionengine.azurecr.io'
+  - name: dockerfilePath
+    value: '$(Build.SourcesDirectory)/Dockerfile'
+  - name: tag
+    value: '$(Build.BuildId)'
+
+  # Agent VM image name
+  - name: vmImageName
+    value: 'ubuntu-latest'
+
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          latest

@@ -1,0 +1,4 @@
+studyId: "0"
+studyTitle: "Test DatabaseConnector"
+engine: "ee:latest"
+entrypoint: "TestDatabaseConnector/main.R"

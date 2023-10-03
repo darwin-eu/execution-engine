@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+
+  engine-ui:
+    image: "executionengine.azurecr.io/execution-engine-ui:latest"
+    ports:
+      - "4200:4200"
+    environment:
+      - BACKEND_BASE_URL=http://localhost:8083/api/v1
+      - AUTH_ENABLED=false
+#      Required if you enable auth
+#      - OIDC_AUTHORITY=https://login.microsoftonline.com/1234-34532-34534/v2.0
+#      - OIDC_CLIENT_ID=2234e6c40-3451-49c6-a99e-234b8fff36a4b
+#      - OIDC_REDIRECT_URI=http://localhost:5173/deck-portal
+
+  engine-api:
+    image: "executionengine.azurecr.io/execution-engine-api:latest"
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://engine_db:5432/execution_engine
+      - AUTHENTICATION_ENABLED=false
+      - ENCRYPTION_KEY=PleaseEnterANew32CharacterString
+    volumes:
+      - ./studies:/app/files
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - execution_network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: engine_db
+    image: "postgres:15.4"
+    restart: always
+    environment:
+      - POSTGRES_DB=execution_engine
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - execution_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  execution_network:
+    name: execution_network
+
+volumes:
+  db-data:

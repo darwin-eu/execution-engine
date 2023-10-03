@@ -1,0 +1,16 @@
+studyId: "1"
+studyTitle: "Test CDMConnector"
+engine: "ee:latest"
+entrypoint: "TestCDMConnector/main.R"
+params:
+  - label: "stem table"
+    description: "asdf"
+    type: "string"
+    key: "STEM_TABLE"
+    value: "..."
+  - label: "stem table2"
+    description: "asdf"
+    type: "boolean"
+    key: "STEM_TABLE2"
+    value: TRUE
+

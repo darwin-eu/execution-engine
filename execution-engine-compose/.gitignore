@@ -1,0 +1,5 @@
+.idea
+*.iml
+db
+studies
+.DS_Store

@@ -1,0 +1,11 @@
+Package: DarwinExecutionEngineRuntime
+Title: Darwin R Execution Runtime
+Version: 0.0.0.9000
+Authors@R: 
+    person("Adam", "Black", , "black@ohdsi.org", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-5576-8701"))
+Description: Provide files for building the Darwin Execution Engine
+License: Apache License (>= 2)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

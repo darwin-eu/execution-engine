@@ -1,0 +1,54 @@
+spring:
+  jackson:
+    default-property-inclusion: ALWAYS
+    visibility:
+      field: any
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  datasource:
+    username: "rowan"
+    password: "postgres"
+    url: "jdbc:postgresql://localhost:5432/execution_engine"
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false # Set to true for debugging queries
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: "org.hibernate.dialect.PostgreSQLDialect"
+    open-in-view: true
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+server:
+  port: 8083
+  error:
+    include-message: always
+  forward-headers-strategy: framework
+  servlet:
+    context-path: "/api/v1"
+
+authentication:
+  enabled: false
+  userinfo: "https://graph.microsoft.com/oidc/userinfo"
+  issuer: "https://sts.windows.net/4e3f7dfb-4248-4fae-ba2a-b50a972bfb33/"
+
+encryption:
+  key: y0u$h0uldSuperDefinitelyChangeTh
+  initVector: Thi$0neAl$0!1234
+  algorithm: AES/CBC/PKCS5PADDING
+
+# If you want to pull images from a private registry you need to provide credentials.
+# Current creds give you access to DARWIN EU images that can be freely shared.
+docker:
+  registry:
+    url: "executionengine.azurecr.io"
+    username: "anonymous-pull"
+    password: "xfM4KmU3nYSiivRmXZljfO3dfqJWNlSU2c3A3t4huD+ACRCicjwZ"
+
+files:
+  store:
+    path: 'files'
+
