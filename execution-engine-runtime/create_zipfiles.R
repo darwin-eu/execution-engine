@@ -1,6 +1,6 @@
 
 
-testnames <- list.files("tests")
+testnames <- list.files(here::here("tests"))
 
 for (i in seq_along(testnames)) {
   message(paste("writing ", testnames[i]))
@@ -9,5 +9,6 @@ for (i in seq_along(testnames)) {
     zip(zipfile = paste0("../zip/", testnames[i]), files = filenames)
   })
 }
+
 
 

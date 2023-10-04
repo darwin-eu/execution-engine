@@ -1,0 +1,38 @@
+project:
+  type: website
+
+website:
+  title: "Execution Engine "
+  navbar:
+    background: primary
+    search: true
+  sidebar:
+    contents:
+      - section: "About"
+        contents:
+          - href: index.qmd
+            text: "Introduction"
+      - text: "---"
+      - section: "Installation"
+        contents:
+          - href: install-linux.qmd
+            text: "Install on Linux"
+          - href: install-windows.qmd
+            text: "Install on Windows"
+          - href: install-mac.qmd
+            text: "Install on Mac"
+      - text: "---"
+      - section: "Contributing"
+        contents:
+          - href: architecture.qmd
+
+format:
+  html:
+    theme:
+      light: [flatly, custom-style.scss]
+      dark: darkly
+    css: styles.css
+    toc: false
+
+editor: visual
+

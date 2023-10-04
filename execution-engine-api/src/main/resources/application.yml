@@ -44,9 +44,9 @@ encryption:
 # Current creds give you access to DARWIN EU images that can be freely shared.
 docker:
   registry:
-    url: "executionengine.azurecr.io"
+    url: "docker.io/adamohdsi"
     username: "anonymous-pull"
-    password: "xfM4KmU3nYSiivRmXZljfO3dfqJWNlSU2c3A3t4huD+ACRCicjwZ"
+    password: ""
 
 files:
   store:

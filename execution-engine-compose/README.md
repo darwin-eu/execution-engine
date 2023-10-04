@@ -9,14 +9,6 @@ DARWIN EU CC Execution Engine Installation
 
 ## HOW TO RUN
 
-In order to download the docker images you must first authenticate with our Azure Container Registry like so:
-
-`docker login -u anonymous-pull -p xfM4KmU3nYSiivRmXZljfO3dfqJWNlSU2c3A3t4huD+ACRCicjwZ executionengine.azurecr.io`
-
-(These credentials expire on 2023-10-02, we should move the images to a public registry and get rid of this step)
-
-Then:
-
 - Change the default encryption key and database credentials in the compose.yaml file
 - Run `docker compose up -d`. This will run it as a daemon, and it will be on when Docker is on, if you don't want that
   remove the `-d`.

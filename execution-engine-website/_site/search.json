@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Darwin / OHDSI Execution Engine",
+    "section": "",
+    "text": "The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written in R code in pre-configured runtime environments using Docker.\nThis guide describes everything you need to know to install, use, and contribute to the Darwin Execution Engine."
+  },
+  {
+    "objectID": "index.html#why-use-execution-engine",
+    "href": "index.html#why-use-execution-engine",
+    "title": "Darwin / OHDSI Execution Engine",
+    "section": "Why use Execution Engine?",
+    "text": "Why use Execution Engine?\nThe Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standardize vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.\nEven though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “environment” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “runtime environment”, or simply “environment” for short refers to the operating system, R/python versions, other system dependencies and R package dependencies that the analytic code uses to run. Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers confidence that their code will run successfully across a network of data nodes."
+  },
+  {
+    "objectID": "index.html#installation",
+    "href": "index.html#installation",
+    "title": "Darwin / OHDSI Execution Engine",
+    "section": "Installation",
+    "text": "Installation\nFor those that simply want to use execution engine it first needs to be installed."
+  },
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Darwin / OHDSI Execution Engine",
+    "section": "",
+    "text": "1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "install-linux.html",
+    "href": "install-linux.html",
+    "title": "Install Execution Engine on Linux",
+    "section": "",
+    "text": "Install Docker according to instructions here\nhttps://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04\nMake sure docker compose is installed and working\ndownload the following files from"
+  }
+]

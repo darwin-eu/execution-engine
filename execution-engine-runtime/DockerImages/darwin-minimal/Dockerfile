@@ -59,15 +59,15 @@ RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
 
 # Copy some global R settings
 #COPY Rprofile.R /tmp/Rprofile.R
-#UN cat /tmp/Rprofile.R >> /usr/local/lib/R/etc/Rprofile.site
+#RUN cat /tmp/Rprofile.R >> /usr/local/lib/R/etc/Rprofile.site
 
 # Install odbc drivers
-RUN apt-get -y update && apt-get install -y curl unixodbc unixodbc-dev vim
-RUN curl https://cdn.rstudio.com/drivers/7C152C12/installer/rstudio-drivers-2023.05.0.tar --output /opt/rstudio-drivers.tar
-RUN tar -xf /opt/rstudio-drivers.tar -C /opt/
-RUN mv /opt/rstudio-drivers-2023.05.0 /opt/rstudio-drivers
+# RUN apt-get -y update && apt-get install -y curl unixodbc unixodbc-dev vim
+# RUN curl https://cdn.rstudio.com/drivers/7C152C12/installer/rstudio-drivers-2023.05.0.tar --output /opt/rstudio-drivers.tar
+# RUN tar -xf /opt/rstudio-drivers.tar -C /opt/
+# RUN mv /opt/rstudio-drivers-2023.05.0 /opt/rstudio-drivers
 
-RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rstudio-drivers/sqlserver/bin/lib/' >> /etc/bash.bashrc
+# RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rstudio-drivers/sqlserver/bin/lib/' >> /etc/bash.bashrc
 
 # sudo cp /etc/odbcinst.ini /etc/odbcinst.ini.bak
 # cat /opt/rstudio-drivers/odbcinst.ini.sample | sudo tee -a /etc/odbcinst.ini
