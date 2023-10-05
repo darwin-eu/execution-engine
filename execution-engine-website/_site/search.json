@@ -2,14 +2,14 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Darwin / OHDSI Execution Engine",
+    "title": "Darwin ~ OHDSI Execution Engine",
     "section": "",
     "text": "The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written in R code in pre-configured runtime environments using Docker.\nThis guide describes everything you need to know to install, use, and contribute to the Darwin Execution Engine."
   },
   {
     "objectID": "index.html#why-use-execution-engine",
     "href": "index.html#why-use-execution-engine",
-    "title": "Darwin / OHDSI Execution Engine",
+    "title": "Darwin ~ OHDSI Execution Engine",
     "section": "Why use Execution Engine?",
     "text": "Why use Execution Engine?\nThe Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standardize vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.\nEven though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “environment” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “runtime environment”, or simply “environment” for short refers to the operating system, R/python versions, other system dependencies and R package dependencies that the analytic code uses to run. Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers confidence that their code will run successfully across a network of data nodes."
   },
@@ -40,5 +40,12 @@
     "title": "Install Execution Engine on Linux",
     "section": "",
     "text": "Install Docker according to instructions here\nhttps://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04\nMake sure docker compose is installed and working\ndownload the following files from"
+  },
+  {
+    "objectID": "install-mac.html",
+    "href": "install-mac.html",
+    "title": "Installing Execution Engine on Mac",
+    "section": "",
+    "text": "First,\n\nThen download and uzip this\n\nInside this folder you will find a configuration folder.\nIf you want to setup secure login see “Setting up security”.\nThen open a terminal and run\n\ndocker build"
   }
 ]

@@ -29,9 +29,9 @@ website:
 format:
   html:
     theme:
-      light: [flatly, custom-style.scss]
-      dark: darkly
-    css: styles.css
+      light: [flatly, custom-style-light.scss]
+      dark: [darkly, custom-style-dark.scss]
+    scss: custom-style.scss
     toc: false
 
 editor: visual

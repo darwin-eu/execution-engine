@@ -1,5 +1,5 @@
 ---
-title: "Darwin / OHDSI Execution Engine"
+title: "Darwin ~ OHDSI Execution Engine"
 ---
 
 The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written in R code in pre-configured runtime environments using Docker.

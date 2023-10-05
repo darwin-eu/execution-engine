@@ -1,0 +1,13 @@
+/*-- scss:defaults --*/
+
+$navbar-bg: rgb(2,0,36);
+$navbar-fg: white;
+$sidebar-hl: rgba(240,182,70,1);
+
+.fullcontent {
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 33%, rgba(240,182,70,1) 100%);
+}
+
+#quarto-sidebar {
+  background: rgba(0, 0, 0, 0);;
+}

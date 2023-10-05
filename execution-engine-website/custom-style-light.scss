@@ -1,0 +1,12 @@
+/*-- scss:defaults --*/
+
+$navbar-bg: rgb(2,0,36);
+$navbar-fg: white;
+$sidebar-hl: rgba(240,182,70,1);
+$sidebar-hl:	white; //why doesn't this work
+$link-color: white; //or this?
+
+.navbar {
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 33%, rgba(240,182,70,1) 100%);
+}
+
