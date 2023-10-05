@@ -46,6 +46,6 @@
     "href": "install-mac.html",
     "title": "Installing Execution Engine on Mac",
     "section": "",
-    "text": "First,\n\nThen download and uzip this\n\nInside this folder you will find a configuration folder.\nIf you want to setup secure login see “Setting up security”.\nDecide which\nThen open a terminal and run\n\ndocker build"
+    "text": "First,\n\nThen download and uzip this\n\nInside this folder you will find a configuration folder.\nIf you want to setup secure login see “Setting up security”.\nThen open a terminal and run\n\ndocker build"
   }
 ]

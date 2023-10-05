@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Execution Engine - Installing Execution Engine on Mac</title>
+<title>Execution Engine - Darwin ~ OHDSI Execution Engine</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -121,7 +87,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./install-linux.html">Installation</a></li><li class="breadcrumb-item"><a href="./install-mac.html">Install on Mac</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About</a></li><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -144,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -174,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./install-mac.html" class="sidebar-item-text sidebar-link active">
+  <a href="./install-mac.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Install on Mac</span></a>
   </div>
 </li>
@@ -203,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Installing Execution Engine on Mac</h1>
+<h1 class="title">Darwin ~ OHDSI Execution Engine</h1>
 </div>
 
 
@@ -218,19 +184,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>First,</p>
-<input type="button" onclick="location.href='https://docs.docker.com/desktop/install/mac-install/';" value="Install Docker Desktop" style="padding: 10px 20px; border-radius: 15px; font-size: 16px; margin: 10px 30px 30px 0px;">
-<p>Then download and uzip this</p>
-<input type="button" onclick="location.href='https://docs.docker.com/desktop/install/mac-install/';" value="Example configuration" style="padding: 10px 20px; border-radius: 15px; font-size: 16px; margin: 10px 30px 30px 0px;">
-<p>Inside this folder you will find a configuration folder.</p>
-<p>If you want to setup secure login see “Setting up security”.</p>
-<p>Decide which</p>
-<p>Then open a terminal and run</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>docker build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<p>The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written in R code in pre-configured runtime environments using Docker.</p>
+<ul>
+<li><p>Easy installation</p></li>
+<li><p>Preconfigured environments out of the box</p></li>
+<li><p>Easily extendable with your own studies or environments</p></li>
+<li><p>Free and Open Source Software (Apache Licensed)</p></li>
+<li><p>Actively used and supported by Darwin EU</p></li>
+</ul>
+<p>This guide describes everything you need to know to install, use, and contribute to the Darwin Execution Engine.</p>
+<section id="why-use-execution-engine" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-execution-engine">Why use Execution Engine?</h2>
+<p>The Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standardize vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.</p>
+<p>Even though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “<em>environment</em>” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “<em>runtime environment</em>”, or simply “<em>environment</em>” for short refers to the operating system, R/python versions, other system dependencies and R package dependencies that the analytic code uses to run. Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers confidence that their code will run successfully across a network of data nodes.</p>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

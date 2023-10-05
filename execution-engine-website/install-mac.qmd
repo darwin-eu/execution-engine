@@ -18,8 +18,10 @@ Inside this folder you will find a configuration folder.
 
 If you want to setup secure login see "Setting up security".
 
+Decide which
 
 Then open a terminal and run
+
 ```{r, eval=FALSE}
 docker build
 ```
