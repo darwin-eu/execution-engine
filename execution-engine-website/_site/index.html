@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Execution Engine - Darwin ~ OHDSI Execution Engine</title>
+<title>Execution Engine Admin Guide - Darwin ~ OHDSI Execution Engine</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Execution Engine</span>
+    <span class="navbar-title">Execution Engine Admin Guide</span>
     </a>
   </div>
         <div class="quarto-navbar-tools ms-auto">
@@ -184,7 +184,8 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written in R code in pre-configured runtime environments using Docker.</p>
+<p>The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written with R code in pre-configured runtime environments using Docker.</p>
+<p>Features:</p>
 <ul>
 <li><p>Easy installation</p></li>
 <li><p>Preconfigured environments out of the box</p></li>
@@ -192,11 +193,11 @@ ul.task-list li input[type="checkbox"] {
 <li><p>Free and Open Source Software (Apache Licensed)</p></li>
 <li><p>Actively used and supported by Darwin EU</p></li>
 </ul>
-<p>This guide describes everything you need to know to install, use, and contribute to the Darwin Execution Engine.</p>
+<p>This guide describes everything you need to know to install, use, and extend the Darwin Execution Engine.</p>
 <section id="why-use-execution-engine" class="level2">
 <h2 class="anchored" data-anchor-id="why-use-execution-engine">Why use Execution Engine?</h2>
-<p>The Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standardize vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.</p>
-<p>Even though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “<em>environment</em>” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “<em>runtime environment</em>”, or simply “<em>environment</em>” for short refers to the operating system, R/python versions, other system dependencies and R package dependencies that the analytic code uses to run. Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers confidence that their code will run successfully across a network of data nodes.</p>
+<p>The Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standard OHDSI vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.</p>
+<p>Even though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “<em>environment</em>” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “<em>runtime environment</em>”, or simply “<em>environment</em>”, refers to the operating system, R/python versions, other system dependencies, and R package dependencies that the analytic code uses to run. The Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers greater confidence that their code will run successfully across a network of data nodes.</p>
 </section>
 <section id="section" class="level2">
 <h2 class="anchored" data-anchor-id="section"></h2>
