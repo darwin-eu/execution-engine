@@ -15,12 +15,8 @@ website:
       - text: "---"
       - section: "Installation"
         contents:
-          - href: install-linux.qmd
-            text: "Install on Linux"
-          - href: install-windows.qmd
-            text: "Install on Windows"
-          - href: install-mac.qmd
-            text: "Install on Mac"
+          - href: install.qmd
+            text: "Install"
       - text: "---"
       - section: "Contributing"
         contents:
