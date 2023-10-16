@@ -64,6 +64,10 @@ There are four containerized components of the application.
 
 3.  Postgres database (providing persistence)
 
-4.  Keycloak security (optional but strongly recommended)
+4.  Keycloak security (optional but recommended if not using OpenID Connect)
 
-## Build the app for release
+The UI and API containers are built using CI/CD process on github actions. The postrgres and Keycloak containers are supported by their respective communities and taken as is for the purpose of the execution engine application.
+
+Unless you are developer wanting to work on execution engine you will not need to build the UI and API containers. These will be released on a regular basis and tagged with semantic version tags. Presently the only tag is `v0.1` It is more likely that you will want to extend execution engine with your own R runtime images. **Important:** The R runtime Docker images are completely independent (de-coupled) from the Execution Engine App so any R runtime images can be used with any version of the execution app.
+
+## 
