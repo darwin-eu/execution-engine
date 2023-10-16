@@ -5,6 +5,8 @@
 trigger:
   - main
 
+pr: none
+
 resources:
   - repo: self
 
@@ -18,12 +20,16 @@ variables:
   # Container registry service connection established during pipeline creation
   - name: dockerRegistryServiceConnection
     value: "execution-engine-connection"
-  - name: imageRepository
-    value: "execution-engine-ui"
   - name: containerRegistry
     value: "executionengine.azurecr.io"
-  - name: dockerfilePath
-    value: "$(Build.SourcesDirectory)/Dockerfile"
+  - name: uiImageRepository
+    value: "execution-engine-ui"
+  - name: uiDockerfilePath
+    value: "$(Build.SourcesDirectory)/execution-engine-api/Dockerfile"
+  - name: apiImageRepository
+    value: 'execution-engine-api'
+  - name: apiDockerfilePath
+    value: "$(Build.SourcesDirectory)/execution-engine-api/Dockerfile"
   - name: tag
     value: "$(Build.BuildId)"
 
@@ -41,12 +47,22 @@ stages:
           vmImage: $(vmImageName)
         steps:
           - task: Docker@2
-            displayName: Build and push an image to container registry
+            displayName: Build and push UI image to container registry
             inputs:
               command: buildAndPush
-              repository: $(imageRepository)
-              dockerfile: $(dockerfilePath)
+              repository: $(uiImageRepository)
+              dockerfile: $(uiDockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(tag)
-                latest
+                dev
+          - task: Docker@2
+            displayName: Build and push API image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(apiImageRepository)
+              dockerfile: $(apiDockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+                dev

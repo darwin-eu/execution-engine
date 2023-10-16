@@ -3,21 +3,20 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  - main
 
 pr: none
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
-
   - group: "dev-deck-shared-variables"
   - name: resource-group-name
     value: $[variables.rgName]
   - name: resource-svcDevopsConnection
     value: $[variables.svcDevopsConnection]
-    
+
   # Container registry service connection established during pipeline creation
   - name: dockerRegistryServiceConnection
     value: 'execution-engine-connection'
