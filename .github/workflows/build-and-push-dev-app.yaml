@@ -25,7 +25,8 @@ jobs:
             login-server: executionengine.azurecr.io
 
         - run: |
-            docker build -t executionengine.azurecr.io/execution-engine-ui:dev -f ${{ github.workspace }}/execution-engine-ui/Dockerfile .
+            cd ${{ github.workspace }}/execution-engine-ui/Dockerfile
+            docker build -t executionengine.azurecr.io/execution-engine-ui:dev .
             docker login -u github-actions -p ${{ secrets.acr_token }} executionengine.azurecr.io
             docker push executionengine.azurecr.io/execution-engine-ui:dev
 
@@ -36,7 +37,8 @@ jobs:
             password: ${{ secrets.acr_token }}
             login-server: executionengine.azurecr.io
         - run: |
-            docker build -t executionengine.azurecr.io/execution-engine-api:dev -f ${{ github.workspace }}/execution-engine-api/Dockerfile .
+            cd ${{ github.workspace }}/execution-engine-api/Dockerfile
+            docker build -t executionengine.azurecr.io/execution-engine-api:dev .
             docker login -u github-actions -p ${{ secrets.acr_token }} executionengine.azurecr.io
             docker push executionengine.azurecr.io/execution-engine-api:dev
 
