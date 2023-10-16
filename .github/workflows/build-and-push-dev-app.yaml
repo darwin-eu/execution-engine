@@ -20,7 +20,10 @@ jobs:
         - name: 'Build and push UI image'
           uses: azure/docker-login@v1
           with:
-            acr_token: ${{ secrets.acr_token }}
+            username: github-actions
+            password: ${{ secrets.acr_token }}
+            login-server: executionengine.azurecr.io
+
         - run: |
             docker build -f execution-engine-ui/Dockerfile -t executionengine.azurecr.io/execution-engine-ui:dev
             docker login -u github-actions -p ${{ secrets.acr_token }} executionengine.azurecr.io
@@ -29,7 +32,9 @@ jobs:
         - name: 'Build and push API image'
           uses: azure/docker-login@v1
           with:
-            acr_token: ${{ secrets.acr_token }}
+            username: github-actions
+            password: ${{ secrets.acr_token }}
+            login-server: executionengine.azurecr.io
         - run: |
             docker build -f execution-engine-api/Dockerfile -t executionengine.azurecr.io/execution-engine-api:dev
             docker login -u github-actions -p ${{ secrets.acr_token }} executionengine.azurecr.io
