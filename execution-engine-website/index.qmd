@@ -1,8 +1,8 @@
 ---
-title: "Darwin ~ OHDSI Execution Engine"
+title: "Darwin Execution Engine"
 ---
 
-The Darwin Execution Engine is a web application that runs Darwin / OHDSI studies written with R code in pre-configured runtime environments using Docker.
+The Darwin Execution Engine is a web application that runs studies written with R code in pre-configured runtime environments using Docker.
 
 Features:
 

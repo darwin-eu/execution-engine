@@ -1,0 +1,69 @@
+---
+title: "Building an execution engine Docker registry"
+---
+
+The Darwin Execution Engine requires an associated Docker registry. A Docker registry is a collection of multiple Docker repositories (repo). Each Docker repo contains on Docker image but can have multiple tagged versions of that single image.
+
+**Important:** An installed instance of the Darwin Execution Engine can only use a single Docker Registry. This registry is set at installation time and cannot be changed without restarting the Execution Engine application.
+
+The registry that will be used by a running instance of Execution Engine is set in the `application.yml` file. This is a configuration file that lets the person deploying the app in a local environment change certain settings for the app.
+
+By default the application will point to the public Darwin EU Docker image repository but this article will teach you how to set up your own.
+
+---
+docker:
+  registry:
+    url: "executionengine.azurecr.io"
+    username: "anonymous-pull"
+    password: ""
+---
+
+To point the Execution Engine to your own Dockerhub registry simply change the url in the yaml file.
+
+---
+docker:
+  registry:
+    url: "docker.io/adamohdsi"
+    username: "anonymous-pull"
+    password: ""
+---
+
+If you are using a custom Docker registry you will need to populate it with images that will be used to run your R code. It is the responsibility of the code creators to ensure that their code runs in the specific image. The execution engine is only responsible for running your R code in a Docker container you specify but in general makes no promises that the code will run successfully. For that you need to test your code in it's companion image. In the Darwin network we test our study code in the companion image prior to network execution and recommend that other users do the same.
+
+The Darwin execution environments are specified in Dockerfiles in the `execution-engine/execution-engine-runtime/DockerImages` directory of the Execution Engine [source code repository](https://github.com/darwin-eu/execution-engine).
+
+Each runtime has an associated folder containing a Dockerfile and a readme. The Dockerfile is the document that specifies how to build the image. We start with a minimal image that has the minimum requirements for running any Darwin study. To build this image first make sure docker is running on your computer. Then navigate to the folder with the Dockerfile and run
+
+```{bash}
+docker build -t executionengine.azurecr.io/darwin-minimal:v0.1 --platform=linux/amd64 . --progress=plain
+```
+
+Then push the image to your repository after logging in. Make sure to set up login credentials according to your Docker registry's instructions (e.g. ssh, token, etc).
+
+```{bash}
+docker login executionengine.azurecr.io
+```
+
+> \> Login Succeeded
+
+```{bash}
+docker push executionengine.azurecr.io/darwin-minimal:v0.1
+```
+
+You can create all the images you need to run studies but be sure to put them all in a single registry.
+
+# App Deployment Containers
+
+The Darwin Execution Engine also uses Docker to deploy the application. We containerize the various parts of this simple application and then deploy using Docker compose. By taking this approach we can deploy this software with a single dependency: Docker. While some institutions may have policies preventing the use of Docker, it drastically simplifies the design and deployment of the application, and provides stronger security guarantees than simply running the application directly on the host machine.
+
+There are four containerized components of the application.
+
+1.  UI - Frontend written in typescript using React
+
+2.  API - Java Spring Boot REST API
+
+3.  Postgres database (providing persistence)
+
+4.  Keycloak security (optional but strongly recommended)
+
+## Build the app for release
