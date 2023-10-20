@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Execution Engine Admin Guide - Darwin Execution Engine</title>
+<title>Execution Engine Admin Guide - Installing Execution Engine</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -87,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">About</a></li><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./install.html">Installation</a></li><li class="breadcrumb-item"><a href="./install.html">Install</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -110,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -128,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./install.html" class="sidebar-item-text sidebar-link">
+  <a href="./install.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Install</span></a>
   </div>
 </li>
@@ -157,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Darwin Execution Engine</h1>
+<h1 class="title">Installing Execution Engine</h1>
 </div>
 
 
@@ -172,23 +172,185 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>The Darwin Execution Engine is a web application that runs studies written with R code in pre-configured runtime environments using Docker.</p>
-<p>Features:</p>
+<p>This page will walk through the steps to install and configure Execution Engine on Linux, Windows, and Mac OS. What you will need to succeed:</p>
 <ul>
-<li><p>Easy installation</p></li>
-<li><p>Preconfigured environments out of the box</p></li>
-<li><p>Easily extendable with your own studies or environments</p></li>
-<li><p>Free and Open Source Software (Apache Licensed)</p></li>
-<li><p>Actively used and supported by Darwin EU</p></li>
+<li><p>Admin permissions to install Docker</p></li>
+<li><p>Ability to create folders and text files</p></li>
+<li><p>Ability to run terminal/shell commands</p></li>
 </ul>
-<p>This guide describes everything you need to know to install, use, and extend the Darwin Execution Engine.</p>
-<section id="why-use-execution-engine" class="level2">
-<h2 class="anchored" data-anchor-id="why-use-execution-engine">Why use Execution Engine?</h2>
-<p>The Observational Health Data Science and Informatics (OHDSI) community is the largest federated network of standardized observational health data ever created. Using the OMOP Common Data Model and standard OHDSI vocabularies as a foundation, researchers can work across institutions to conduct network research. Darwin EU is pioneering this approach for regulatory use in the European Union.</p>
-<p>Even though the data and analytics are standardized, the execution environments where the analytic code runs are not. The word “<em>environment</em>” is somewhat overloaded in computer science so it is helpful to clearly define it. For the purpose of this website “<em>runtime environment</em>”, or simply “<em>environment</em>”, refers to the operating system, R/python versions, other system dependencies, and R package dependencies that the analytic code uses to run. The Execution Engine aims to standardize the runtime environment for OHDSI network studies and gives researchers greater confidence that their code will run successfully across a network of data nodes.</p>
-</section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<p>First install Docker Desktop for your system using the instructions provided on the Docker website here: https://docs.docker.com/engine/install/</p>
+<p>Next create a new directory/folder on your computer where you will put your configuration settings.</p>
+<p>Choose how you would like to set up security. There are three options:</p>
+<ol type="1">
+<li><p><a href="https://openid.net/developers/how-connect-works/">Open ID Connect</a></p></li>
+<li><p><a href="https://www.keycloak.org/">Keycloak</a></p></li>
+<li><p>No security</p></li>
+</ol>
+<p>Since execution engine requires direct access to databases to run analyses security is recommended. The “No security” option is suitable for testing or if another security/login method is already in place.</p>
+<p>To install Execution Engine without security simply copy and paste the following YAML into a new text file in your executionengine folder named <code>compose.yml</code>. You may choose to alter some of these settings if you with. Common changes might be setting <code>AUTH_ENABLED=true</code> in order to enable Open ID Connect. You might also want to change the database credentials and the 32 character string that is use as the <code>ENCRYPTION_KEY</code> . You should not need to change anything else but if you are familiar with Docker go right ahead and make the adjustments you need to the compose.yml file.</p>
+<pre class="{yaml}"><code>version: '3.8'
+
+services:
+
+  engine-ui:
+    image: "executionengine.azurecr.io/execution-engine-ui:dev"
+    ports:
+      - "4200:4200"
+    environment:
+      - BACKEND_BASE_URL=http://localhost:8083/api/v1
+      - AUTH_ENABLED=false
+#      Required if you enable Open ID authentication by setting AUTH_ENABLED=true
+#      - OIDC_AUTHORITY=https://login.microsoftonline.com/1234-34532-34534/v2.0
+#      - OIDC_CLIENT_ID=2234e6c40-3451-49c6-a99e-234b8fff36a4b
+#      - OIDC_REDIRECT_URI=http://localhost:5173/deck-portal
+
+  engine-api:
+    image: "executionengine.azurecr.io/execution-engine-api:dev"
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://engine_db:5432/execution_engine
+      - AUTHENTICATION_ENABLED=false
+      - ENCRYPTION_KEY=PleaseEnterANew32CharacterString
+    volumes:
+      - ./studies:/app/files
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - execution_network
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    container_name: engine_db
+    image: "postgres:15.4"
+    restart: always
+    environment:
+      - POSTGRES_DB=execution_engine
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - execution_network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+networks:
+  execution_network:
+    name: execution_network
+
+volumes:
+  db-data:</code></pre>
+<p>Once you have saved the compose.yml file open a terminal, shell, or command prompt and navigate to the executionengine folder you just created. Run the following docker command.</p>
+<p><code>{bash, eval=FALSE} docker compose up -d</code></p>
+<p>This tells docker to pull all of the necessary applications to start up the application. Note that this will not download any R runtime environments. If you are preparing an environment for offline execution then you will need to be sure to pull your images from the internet (wherever you R runtime images are located) down onto your local machine. Note that you may need to put these images on a USB drive to transfer them to an air-gapped computer.</p>
+<p>After running <code>docker compose up -d</code> and waiting a few minutes your instance of the Execution engine should be live at <a href="http://localhost:4200" class="uri">http://localhost:4200</a>.</p>
+<section id="configure-data-sources" class="level1">
+<h1>Configure Data Sources</h1>
+<p>The first thing you will want to do is configure access to one or more data sources in the OMOP Common Data Model (CDM) format. To do this go to the “Data Sources” tab and click the “New Data Source” button.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/add-data-source.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Make sure to fill out as much information as you have about your data source. A “data source” represents a single OMOP CDM instance. For example, if you have three OMOP CDMs in a single database you will need to add three data sources, one for each OMOP CDM instance.</p>
+<p>The values that you put in the form will be saved in the execution engine’s internal database. The password will be encrypted. The values will then be made available in R code as environment variables.</p>
+<p>For example if your CDM Name is “Synpuf 100k”, R programmers will be able to access this value in their code using <code>Sys.getenv('CDM_NAME')</code> .</p>
+<p>The database related environment variables available for R programmers are:</p>
+<table class="table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 26%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data Source Field</th>
+<th>Environment variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“Select a database”</td>
+<td>DBMS_TYPE</td>
+<td>The database management system: postgresql, redshift, sql server, oracle, snowflake, spark</td>
+</tr>
+<tr class="even">
+<td>CDM Name</td>
+<td>DATA_SOURCE_NAME</td>
+<td>The name of the CDM</td>
+</tr>
+<tr class="odd">
+<td>OMOP CDM Version</td>
+<td>CDM_VERSION</td>
+<td>The version of the OMOP CDM being used. Either 5.3 or 5.4</td>
+</tr>
+<tr class="even">
+<td>JDBC Connection String</td>
+<td>CONNECTION_STRING</td>
+<td>The JDBC connection string often used when connecting to the database with DatabaseConnector.</td>
+</tr>
+<tr class="odd">
+<td>Database Catalog</td>
+<td>DBMS_CATALOG</td>
+<td>Some databases have a compound schema (e.g.&nbsp;catalog.schema). For example SQL Server usually has something like <code>cdm53.dbo</code> for the full schema name. This field can be left blank if you do not need it.</td>
+</tr>
+<tr class="even">
+<td>Database Server</td>
+<td>DBMS_SERVER</td>
+<td>The database server name (e.g.&nbsp;pgsqltest1.abcd1234.us-east-1.rds.amazonaws.com)</td>
+</tr>
+<tr class="odd">
+<td>Database Name</td>
+<td>DBMS_NAME</td>
+<td>The name of the database used to connect.</td>
+</tr>
+<tr class="even">
+<td>Database Port</td>
+<td>DBMS_PORT</td>
+<td>The port of the database used to connect.</td>
+</tr>
+<tr class="odd">
+<td>Database Username</td>
+<td>DBMS_USERNAME</td>
+<td>The username used to connect to the database.</td>
+</tr>
+<tr class="even">
+<td>Database Password</td>
+<td>DBMS_PASSWORD</td>
+<td>The password used to connect to the database.</td>
+</tr>
+<tr class="odd">
+<td>CDM Schema</td>
+<td>DBMS_SCHEMA</td>
+<td>The name of the schema that contains the OMOP CDM.</td>
+</tr>
+<tr class="even">
+<td>Target Schema</td>
+<td>TARGET_SCHEMA</td>
+<td>A schema where the user has write access.</td>
+</tr>
+<tr class="odd">
+<td>Result Schema</td>
+<td>RESULT_SCHEMA</td>
+<td>A schema where the user has write access.</td>
+</tr>
+<tr class="even">
+<td>Cohort Table Name</td>
+<td>COHORT_TARGET_TABLE</td>
+<td>The name of a table to use to store cohorts.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> All of these variables are optional and R study programmers have the option to use them or not in their R code. If the variable has not been set then the environment variable <code>Sys.getenv('CDM_NAME')</code>, will, by default, return the empty string ““.</p>
 
 
 </section>

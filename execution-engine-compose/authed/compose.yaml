@@ -23,7 +23,7 @@ services:
         condition: service_healthy
         
   engine-ui:
-    image: "execution-engine-ui:latest"
+    image: "executionengine.azurecr.io/execution-engine-ui:v0.1"
     environment:
       - BACKEND_BASE_URL=http://localhost/api/v1
       - AUTH_ENABLED=true
@@ -34,7 +34,7 @@ services:
       - execution_network
   
   engine-api:
-    image: "execution-engine-api:latest"
+    image: "executionengine.azurecr.io/execution-engine-api:v0.1"
     restart: always
     environment:
       - SPRING_DATASOURCE_USERNAME=postgres
