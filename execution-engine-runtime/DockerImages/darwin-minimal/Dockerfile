@@ -1,4 +1,4 @@
-FROM rocker/r-ver:4.2
+FROM --platform=linux/amd64 rocker/r-ver:4.2
 MAINTAINER Adam Black <adam.black@odysseusinc.com>
 
 # Install java and rJava
@@ -33,7 +33,7 @@ RUN install2.r --error openssl httr xml2 remotes \
 
 # Install odbc and RPostgres drivers
 RUN apt-get -y update && apt-get install -y --install-suggests \
-   unixodbc unixodbc-dev libpq-dev \
+   unixodbc unixodbc-dev libpq-dev curl \
    && apt-get clean \
    && rm -rf /var/lib/apt/lists/
 
@@ -57,25 +57,18 @@ RUN R -e "remotes::install_github('ohdsi/Capr')"
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
 
-# Copy some global R settings
-#COPY Rprofile.R /tmp/Rprofile.R
-#RUN cat /tmp/Rprofile.R >> /usr/local/lib/R/etc/Rprofile.site
+# SQL Server odbc
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+RUN curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+RUN sudo apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
-# Install odbc drivers
-# RUN apt-get -y update && apt-get install -y curl unixodbc unixodbc-dev vim
-# RUN curl https://cdn.rstudio.com/drivers/7C152C12/installer/rstudio-drivers-2023.05.0.tar --output /opt/rstudio-drivers.tar
-# RUN tar -xf /opt/rstudio-drivers.tar -C /opt/
-# RUN mv /opt/rstudio-drivers-2023.05.0 /opt/rstudio-drivers
-
-# RUN echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/rstudio-drivers/sqlserver/bin/lib/' >> /etc/bash.bashrc
-
-# sudo cp /etc/odbcinst.ini /etc/odbcinst.ini.bak
-# cat /opt/rstudio-drivers/odbcinst.ini.sample | sudo tee -a /etc/odbcinst.ini
-# cat /etc/odbcinst.ini
-
+# Snowflake odbc
+RUN curl --output snowflake-odbc-3.1.1.x86_64.deb https://sfc-repo.snowflakecomputing.com/odbc/linux/3.1.1/snowflake-odbc-3.1.1.x86_64.deb
+RUN sudo dpkg -i snowflake-odbc-3.1.1.x86_64.deb
 
 RUN mkdir /results
 WORKDIR /code
 
 CMD bash
 
+# Ubuntu 22.04
