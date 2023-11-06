@@ -16,7 +16,7 @@ public class DataSourceDTO {
     private String connectionString;
     private String cdmSchema;
     private String username;
-    private String targetSchema;
+    private String writeSchema;
     private String resultSchema;
     private String cohortTargetTable;
     private String dbServer;
@@ -38,7 +38,7 @@ public class DataSourceDTO {
                 .cdmVersion(entity.cdmVersion())
                 .cdmSchema(entity.cdmSchema())
                 .username(entity.username())
-                .targetSchema(entity.targetSchema())
+                .writeSchema(entity.writeSchema())
                 .resultSchema(entity.resultSchema())
                 .cohortTargetTable(entity.cohortTargetTable())
                 .dbCatalog(entity.dbCatalog());

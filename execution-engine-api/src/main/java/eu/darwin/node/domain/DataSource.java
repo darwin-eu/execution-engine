@@ -30,7 +30,7 @@ public class DataSource {
     private String username;
     @Convert(converter = Encrypt.class)
     private String password;
-    private String targetSchema;
+    private String writeSchema;
     private String resultSchema;
     private String cohortTargetTable;
     private String dbServer;
