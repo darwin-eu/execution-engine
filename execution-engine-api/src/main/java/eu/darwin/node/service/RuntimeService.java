@@ -36,8 +36,8 @@ public class RuntimeService {
     private static final String RUNTIME_ENV_DBMS_PASSWORD = "DBMS_PASSWORD";
     private static final String RUNTIME_ENV_DBMS_TYPE = "DBMS_TYPE";
     private static final String RUNTIME_ENV_CONNECTION_STRING = "CONNECTION_STRING";
-    private static final String RUNTIME_ENV_DBMS_SCHEMA = "DBMS_SCHEMA";
-    private static final String RUNTIME_ENV_TARGET_SCHEMA = "TARGET_SCHEMA";
+    private static final String RUNTIME_ENV_CDM_SCHEMA = "CDM_SCHEMA";
+    private static final String RUNTIME_ENV_WRITE_SCHEMA = "WRITE_SCHEMA";
     private static final String RUNTIME_ENV_RESULT_SCHEMA = "RESULT_SCHEMA";
     private static final String RUNTIME_ENV_DB_CATALOG = "DBMS_CATALOG";
     private static final String RUNTIME_ENV_DB_SERVER = "DBMS_SERVER";
@@ -172,8 +172,8 @@ public class RuntimeService {
         environment.put(RUNTIME_ENV_DBMS_PASSWORD, dataSource.password());
         environment.put(RUNTIME_ENV_DBMS_TYPE, dataSource.type().ohdsiDB());
         environment.put(RUNTIME_ENV_CONNECTION_STRING, dataSource.connectionString());
-        environment.put(RUNTIME_ENV_DBMS_SCHEMA, dataSource.cdmSchema());
-        environment.put(RUNTIME_ENV_TARGET_SCHEMA, dataSource.targetSchema());
+        environment.put(RUNTIME_ENV_CDM_SCHEMA, dataSource.cdmSchema());
+        environment.put(RUNTIME_ENV_WRITE_SCHEMA, dataSource.writeSchema());
         environment.put(RUNTIME_ENV_RESULT_SCHEMA, dataSource.resultSchema());
         environment.put(RUNTIME_ENV_DB_CATALOG, dataSource.dbCatalog());
         environment.put(RUNTIME_ENV_DB_SERVER, dataSource.dbServer());

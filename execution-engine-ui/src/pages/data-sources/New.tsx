@@ -34,7 +34,7 @@ export default function New(props: CreateDataSourceProps) {
     { name: "username", label: "Database Username" },
     { name: "password", label: "Database Password" },
     { name: "cdmSchema", label: "CDM Schema" },
-    { name: "targetSchema", label: "Target Schema" },
+    { name: "writeSchema", label: "Write Schema (write access required)" },
     { name: "resultSchema", label: "Result Schema" },
     { name: "cohortTargetTable", label: "Cohort Table Name" },
   ];
@@ -75,7 +75,7 @@ export default function New(props: CreateDataSourceProps) {
       .catch(() => {
         doAlert(
           "error",
-          "Something went wrong submitting database details, phone Adam Black he is to blame",
+          "Something went wrong submitting database details, email Adam Black (black@ohdsi.org)",
         );
       });
   };

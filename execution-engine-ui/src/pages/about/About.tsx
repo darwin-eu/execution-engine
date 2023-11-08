@@ -49,7 +49,7 @@ export const About = () => {
         {" "}
         During runtime, you have access to the following environment variables
         DATA_SOURCE_NAME DBMS_USERNAME DBMS_PASSWORD DBMS_TYPE CONNECTION_STRING
-        DBMS_SCHEMA TARGET_SCHEMA RESULT_SCHEMA DBMS_CATALOG DBMS_SERVER
+        CDM_SCHEMA WRITE_SCHEMA RESULT_SCHEMA DBMS_CATALOG DBMS_SERVER
         DBMS_NAME DBMS_PORT CDM_VERSION COHORT_TARGET_TABLE ANALYSIS_ID
       </li>
       <h3 className={"blue"}>Other</h3>

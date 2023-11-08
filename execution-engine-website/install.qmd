@@ -114,7 +114,7 @@ For example if your CDM Name is "Synpuf 100k", R programmers will be able to acc
 The database related environment variables available for R programmers are:
 
 | Data Source Field      | Environment variable | Description                                                                                                                                                                                              |
-|--------------------|-------------------|---------------------------------|
+|------------------------|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | "Select a database"    | DBMS_TYPE            | The database management system: postgresql, redshift, sql server, oracle, snowflake, spark                                                                                                               |
 | CDM Name               | DATA_SOURCE_NAME     | The name of the CDM                                                                                                                                                                                      |
 | OMOP CDM Version       | CDM_VERSION          | The version of the OMOP CDM being used. Either 5.3 or 5.4                                                                                                                                                |
@@ -125,8 +125,8 @@ The database related environment variables available for R programmers are:
 | Database Port          | DBMS_PORT            | The port of the database used to connect.                                                                                                                                                                |
 | Database Username      | DBMS_USERNAME        | The username used to connect to the database.                                                                                                                                                            |
 | Database Password      | DBMS_PASSWORD        | The password used to connect to the database.                                                                                                                                                            |
-| CDM Schema             | DBMS_SCHEMA          | The name of the schema that contains the OMOP CDM.                                                                                                                                                       |
-| Target Schema          | TARGET_SCHEMA        | A schema where the user has write access.                                                                                                                                                                |
+| CDM Schema             | CDM_SCHEMA           | The name of the schema that contains the OMOP CDM.                                                                                                                                                       |
+| Write Schema           | WRITE_SCHEMA         | A schema where the user has write access.                                                                                                                                                                |
 | Result Schema          | RESULT_SCHEMA        | A schema where the user has write access.                                                                                                                                                                |
 | Cohort Table Name      | COHORT_TARGET_TABLE  | The name of a table to use to store cohorts.                                                                                                                                                             |
 

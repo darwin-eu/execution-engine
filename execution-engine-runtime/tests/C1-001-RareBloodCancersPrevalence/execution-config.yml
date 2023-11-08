@@ -1,0 +1,4 @@
+studyId: "C1-001-RareBloodCancersPrevalence"
+studyTitle: "Rare Blood Cancers Prevalence"
+engine: "executionengine.azurecr.io/darwin-minimal:v0.2"
+entrypoint: "C1-001-RareBloodCancersPrevalence/main.R"
