@@ -6,15 +6,15 @@ library(log4r)
 source(here::here("cdm_from_environment.R"))
 table_prefix <- "dw"
 
-options(error = function() {
-  sink(stderr())
-  on.exit(sink(NULL))
-  traceback(0, max.lines = 1L)
-  # traceback()
-  if (!interactive()) {
-    q(status = 1)
-  }
-})
+# options(error = function() {
+#   sink(stderr())
+#   on.exit(sink(NULL))
+#   traceback(0, max.lines = 1L)
+#   # traceback()
+#   if (!interactive()) {
+#     q(status = 1)
+#   }
+# })
 
 # database metadata and connection details -----
 # The name/ acronym for the database

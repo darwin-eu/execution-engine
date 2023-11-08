@@ -73,6 +73,12 @@ RUN install2.r --error here log4r testthat \
 RUN echo "EUNOMIA_DATA_FOLDER=/opt/eunomia_data" >> /usr/local/lib/R/etc/Renviron
 RUN R -e 'CDMConnector::download_eunomia_data()'
 
+# Install vim
+RUN apt-get -y update && apt-get install -y vim && apt-get clean && rm -rf /var/lib/apt/lists/
+
+# need to replace one line in the snowflake.ini file
+RUN sed -i 's/libodbcinst.so.1/libodbcinst.so.2/g' /usr/lib/snowflake/odbc/lib/simba.snowflake.ini
+
 RUN mkdir /results
 WORKDIR /code
 

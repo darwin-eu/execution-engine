@@ -106,6 +106,7 @@ export default function New(props: CreateDataSourceProps) {
               <MenuItem value={"REDSHIFT"}>Redshift</MenuItem>
               <MenuItem value={"SNOWFLAKE"}>Snowflake</MenuItem>
               <MenuItem value={"SPARK"}>Spark</MenuItem>
+              <MenuItem value={"DUCKDB"}>Duckdb</MenuItem>
             </Select>
             <div>&#8205;</div>{" "}
             {/* The invisible character to add space. Probably should use css instead. */}
