@@ -8,6 +8,6 @@ It includes R, database drivers (JDBC and ODBC) as well as the Darwin R packages
 docker build -t executionengine.azurecr.io/darwin-minimal:v0.1 .
 docker run -it --rm executionengine.azurecr.io/darwin-minimal:v0.1 
 docker login -u <user> -p <password> executionengine.azurecr.io
-docker push executionengine.azurecr.io/darwin-minimal:v0.1 
+docker push executionengine.azurecr.io/darwin-minimal:v0.2
 
 

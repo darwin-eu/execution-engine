@@ -50,6 +50,10 @@ cdm_from_environment <- function(write_prefix = "") {
                           TrustServerCertificate="yes",
                           Port     = Sys.getenv("DBMS_PORT"))
     
+    if (!DBI::dbIsValid(con)) {
+      cli::cli_abort("Database connection failed!")
+    }
+    
     
   } else if (Sys.getenv("DBMS_TYPE") == "snowflake") {
     con <- DBI::dbConnect(odbc::odbc(),
@@ -59,6 +63,10 @@ cdm_from_environment <- function(write_prefix = "") {
                           UID       = Sys.getenv("DBMS_USERNAME"),
                           PWD       = Sys.getenv("DBMS_PASSWORD"),
                           WAREHOUSE = "COMPUTE_WH_XS")
+    
+    if (!DBI::dbIsValid(con)) {
+      cli::cli_abort("Database connection failed!")
+    }
     
   } else {
     cli::cli_abort("{Sys.getenv('DBMS_TYPE')} is not a supported database type!")
@@ -73,7 +81,7 @@ cdm_from_environment <- function(write_prefix = "") {
       cli::cli_abort("write_schema can have at most one period (.)!")
     }
     
-    stopifnot(nchars(write_schema[1]) > 0, nchars(write_schema[2]) > 0)
+    stopifnot(nchar(write_schema[1]) > 0, nchar(write_schema[2]) > 0)
     write_schema <- c(catalog = write_schema[1], schema = write_schema[2])
   } else {
     write_schema <- c(schema = Sys.getenv("WRITE_SCHEMA"))

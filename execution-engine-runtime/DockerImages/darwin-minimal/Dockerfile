@@ -43,10 +43,7 @@ RUN install2.r --error odbc RPostgres duckdb \
 RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/2023-11-01"))' >>"${R_HOME}/etc/Rprofile.site"
 
 # Install Darwin packages
-RUN R -e "remotes::install_github('ohdsi/CirceR')"
-RUN R -e "remotes::install_github('ohdsi/Capr')"
-
-RUN install2.r --deps TRUE --error --skipinstalled --ncpus -1 \
+RUN install2.r --error \
         CDMConnector \
         IncidencePrevalence \
         PatientProfiles \
@@ -54,6 +51,9 @@ RUN install2.r --deps TRUE --error --skipinstalled --ncpus -1 \
         DrugExposureDiagnostics \
         DrugUtilisation \
 && rm -rf /tmp/download_packages/ /tmp/*.rds
+
+RUN R -e "remotes::install_github('ohdsi/CirceR')"
+# RUN R -e "remotes::install_github('ohdsi/Capr')"
 
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
@@ -67,7 +67,7 @@ RUN apt clean && apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
 RUN curl --output snowflake-odbc-3.1.1.x86_64.deb https://sfc-repo.snowflakecomputing.com/odbc/linux/3.1.1/snowflake-odbc-3.1.1.x86_64.deb
 RUN sudo dpkg -i snowflake-odbc-3.1.1.x86_64.deb
 
-RUN install2.r here log4r \
+RUN install2.r --error here log4r testthat \
 && rm -rf /tmp/download_packages/ /tmp/*.rds
 
 RUN echo "EUNOMIA_DATA_FOLDER=/opt/eunomia_data" >> /usr/local/lib/R/etc/Renviron

@@ -31,10 +31,25 @@ cdm_from_environment <- function(write_prefix = "") {
             "CDM_SCHEMA",
             "WRITE_SCHEMA")
 
-  # "DBMS_CATALOG" is not required
-  for (v in vars) {
-    if (Sys.getenv(v) == "" && v != "DBMS_CATALOG") {
-      cli::cli_abort("Environment variable {v} is required but not set!")
+  supported_dbms <- c("redshift", "postgresql", "sql server", "duckdb", "snowflake")
+
+  if (!(Sys.getenv("DBMS_TYPE") %in% supported_dbms)) {
+    cli::cli_abort("DBMS_TYPE must be one of {paste(supported_dbms, collapse = ',')}")
+  }
+
+  if (Sys.getenv("DBMS_TYPE") == "duckdb") {
+    checkmate::check_choice(Sys.getenv("DBMS_NAME"), choices = CDMConnector::example_datasets())
+
+    con <- DBI::dbConnect(duckdb::duckdb(), CDMConnector::eunomia_dir(Sys.getenv("DBMS_NAME")))
+    cdm <- cdm_from_con(con, cdm_schema = "main", write_schema = "main")
+    return(cdm)
+
+  } else {
+    # "DBMS_CATALOG" is not required
+    for (v in vars) {
+      if (Sys.getenv(v) == "" && v != "DBMS_CATALOG") {
+        cli::cli_abort("Environment variable {v} is required but not set!")
+      }
     }
   }
 

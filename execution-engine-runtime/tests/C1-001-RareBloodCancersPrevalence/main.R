@@ -4,7 +4,17 @@ library(dplyr)
 library(log4r)
 
 source(here::here("cdm_from_environment.R"))
+table_prefix <- "dw"
 
+options(error = function() {
+  sink(stderr())
+  on.exit(sink(NULL))
+  traceback(0, max.lines = 1L)
+  # traceback()
+  if (!interactive()) {
+    q(status = 1)
+  }
+})
 
 # database metadata and connection details -----
 # The name/ acronym for the database
@@ -15,13 +25,14 @@ db_name <- Sys.getenv("DATA_SOURCE_NAME") %>%
 
 # Set output folder location -----
 # the path to a folder where the results from this analysis will be saved
-output_folder <- here::here("results")
+# output_folder <- here::here("results") # does not work with execution engine
+output_folder <- "/results"
 
 # create cdm reference ----
-con <- DBI::dbConnect(duckdb::duckdb(), eunomia_dir())
-cdm <- cdm_from_con(con, "main", "main")
+# con <- DBI::dbConnect(duckdb::duckdb(), eunomia_dir())
+# cdm <- cdm_from_con(con, "main", "main")
 
-# cdm <- cdm_from_environment(write_prefix = table_prefix)
+cdm <- cdm_from_environment(write_prefix = table_prefix)
 
 # check database connection
 # running the next line should give you a count of your person table
@@ -31,13 +42,12 @@ n <- cdm$person %>%
 
 print(paste(n, "persons in the CDM person table"))
 
+print(paste("Database connection class:", class(attr(cdm, "dbcon"))))
 
 # create directory if it does not already exist ----
 if (!file.exists(output_folder)) {
   dir.create(output_folder, recursive = TRUE)
 }
-
-table_prefix <- "dw"
 
 # start log ----
 log_file <- paste0(output_folder, "/log.txt")
