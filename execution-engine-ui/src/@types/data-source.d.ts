@@ -10,11 +10,8 @@ export type DataSource = {
   dbName?: string;
   username?: string;
   password?: string;
-  connectionString?: string;
   cdmSchema?: string;
-  targetSchema?: string;
-  resultSchema?: string;
-  cohortTargetTable?: string;
+  writeSchema?: string;
 };
 
 export type Submission = {

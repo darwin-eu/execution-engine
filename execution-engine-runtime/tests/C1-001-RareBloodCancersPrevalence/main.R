@@ -4,23 +4,12 @@ library(dplyr)
 library(log4r)
 
 source(here::here("cdm_from_environment.R"))
-table_prefix <- "dw"
-
-# options(error = function() {
-#   sink(stderr())
-#   on.exit(sink(NULL))
-#   traceback(0, max.lines = 1L)
-#   # traceback()
-#   if (!interactive()) {
-#     q(status = 1)
-#   }
-# })
 
 # database metadata and connection details -----
 # The name/ acronym for the database
-db_name <- Sys.getenv("DATA_SOURCE_NAME") %>% 
-  tolower() %>% 
-  stringr::str_replace_all(" ", "_") %>% 
+db_name <- Sys.getenv("DATA_SOURCE_NAME") %>%
+  tolower() %>%
+  stringr::str_replace_all(" ", "_") %>%
   stringr::str_replace_all("\\(|\\)", "")
 
 # Set output folder location -----
@@ -32,12 +21,12 @@ output_folder <- "/results"
 # con <- DBI::dbConnect(duckdb::duckdb(), eunomia_dir())
 # cdm <- cdm_from_con(con, "main", "main")
 
-cdm <- cdm_from_environment(write_prefix = table_prefix)
+cdm <- cdm_from_environment(write_prefix = "dw_")
 
 # check database connection
 # running the next line should give you a count of your person table
-n <- cdm$person %>% 
-  tally() %>% 
+n <- cdm$person %>%
+  tally() %>%
   pull(n)
 
 print(paste(n, "persons in the CDM person table"))
@@ -55,13 +44,13 @@ logger <- create.logger()
 logfile(logger) <- log_file
 level(logger) <- "INFO"
 
-# tables --- 
-table_outcome <- paste0(table_prefix, "_outcome")
-table_dpop_sex <- paste0(table_prefix, "_dpop_sex")
-table_ph <- paste0(table_prefix, "_dpop_ph")
-table_age <- paste0(table_prefix, "_dpop_age")
-table_point_prev <- paste0(table_prefix, "_point_prev")
-table_period_prev <- paste0(table_prefix, "_period_prev")
+# tables ---
+table_outcome <-"outcome"
+table_dpop_sex <- "dpop_sex"
+table_ph <- "dpop_ph"
+table_age <- "dpop_age"
+table_point_prev <- "point_prev"
+table_period_prev <- "period_prev"
 
 # instantiate outcome cohorts ----
 info(logger, "INSTANTIATE OUTCOME COHORTS")
@@ -70,13 +59,13 @@ outcome_cohorts <- readCohortSet(here::here("outcomeCohorts"))
 
 info(logger, "- getting outcomes")
 
-cdm <- generateCohortSet(cdm, 
+cdm <- generateCohortSet(cdm,
                          outcome_cohorts,
                          name = table_outcome,
                          overwrite = TRUE)
 
-total_subjects <- cohort_count(cdm[[table_outcome]]) %>% 
-  summarise(total = sum(number_subjects)) %>% 
+total_subjects <- cohort_count(cdm[[table_outcome]]) %>%
+  summarise(total = sum(number_subjects)) %>%
   pull(total)
 
 print(paste("total subjects with outcomes:", total_subjects))
@@ -90,7 +79,8 @@ cdm <- generateDenominatorCohortSet(
   name = table_dpop_sex,
   cohortDateRange = c(as.Date("2010-01-01"), as.Date("2024-01-01")),
   sex = c("Male", "Female", "Both"),
-  daysPriorObservation = 365
+  daysPriorObservation = 365,
+  overwrite = TRUE
 )
 
 info(logger, "- getting denominator - prior history")
@@ -99,9 +89,10 @@ cdm <- generateDenominatorCohortSet(
   cdm = cdm,
   name = table_ph,
   cohortDateRange = c(as.Date("2010-01-01"), as.Date("2024-01-01")),
-  daysPriorObservation = c(0, 1095)
+  daysPriorObservation = c(0, 1095),
+  overwrite = TRUE
 )
-  
+
 info(logger, "- getting denominator - age_gr")
 
 cdm <- generateDenominatorCohortSet(
@@ -116,7 +107,8 @@ cdm <- generateDenominatorCohortSet(
     # age_gr_2
     c(0, 44), c(45, 64), c(65, 150)
   ),
-  daysPriorObservation = 365
+  daysPriorObservation = 365,
+  overwrite = TRUE
 )
 
 # estimate prevalence -----
@@ -129,7 +121,7 @@ denominators <- c(
 prevalence_estimates <- list()
 
 for (i in seq_along(denominators)) {
-  
+
   info(logger, paste0("- getting point prevalence for ", denominators[i]))
   # debugonce(estimatePointPrevalence)
   prevalence_estimates[[paste0("point_prevalence_", denominators[[i]])]]  <- estimatePointPrevalence(
@@ -140,12 +132,12 @@ for (i in seq_along(denominators)) {
   )
 
   info(logger, paste0("- getting period prevalence for ", denominators[i]))
-  
-  
+
+
   prevalence_estimates[[paste0("period_prevalence_", denominators[[i]])]] <- estimatePeriodPrevalence(
     cdm = cdm,
     denominatorTable = denominators[i],
-    outcomeTable = table_outcome, 
+    outcomeTable = table_outcome,
     completeDatabaseIntervals = TRUE,
     fullContribution = c(TRUE, FALSE),
     interval = "years"

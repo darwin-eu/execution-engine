@@ -108,7 +108,9 @@ cdm_from_environment <- function(write_prefix = "") {
   }
   
   if (write_prefix != "") {
-    write_schema <- c(write_schema, prefix = write_prefix)
+    if (Sys.getenv("DBMS_TYPE") != "snowflake") {
+      write_schema <- c(write_schema, prefix = write_prefix)
+    }
   }
   
   if (stringr::str_detect(Sys.getenv("CDM_SCHEMA"), "\\.")) {
