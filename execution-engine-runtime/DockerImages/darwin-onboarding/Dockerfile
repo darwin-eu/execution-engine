@@ -1,4 +1,4 @@
-FROM adamohdsi/darwin-minimal:v0.1
+FROM adamohdsi/darwin-base:v0.1
 MAINTAINER Adam Black <black@ohdsi.org>
 
 # Install onboarding R packages

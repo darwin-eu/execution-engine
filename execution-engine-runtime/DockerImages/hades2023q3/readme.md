@@ -5,7 +5,10 @@ This image is built using the Hades-wide release lockfiles found [here](https://
 
 **deployment notes**
 
-docker build -t executionengine.azurecr.io/darwin-minimal:v0.2 .
-docker run -it --rm executionengine.azurecr.io/darwin-minimal:v0.2
+docker build -t executionengine.azurecr.io/hades:2023q3 .
+docker run -it --rm executionengine.azurecr.io/hades:2023mar30
 docker login -u <user> -p <password> executionengine.azurecr.io
 docker push executionengine.azurecr.io/darwin-minimal:v0.2
+
+
+docker build -t executionengine.azurecr.io/hades:2023Q3 .

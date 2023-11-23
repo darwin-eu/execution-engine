@@ -79,6 +79,12 @@ RUN apt-get -y update && apt-get install -y vim && apt-get clean && rm -rf /var/
 # need to replace one line in the snowflake.ini file
 RUN sed -i 's/libodbcinst.so.1/libodbcinst.so.2/g' /usr/lib/snowflake/odbc/lib/simba.snowflake.ini
 
+# Install onboarding R packages
+RUN R -e "remotes::install_github('ohdsi/Achilles', 'v1.7.2')"
+RUN R -e "remotes::install_github('darwin-eu/CdmOnboarding', 'v2.1.0')"
+RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.1.0')"
+RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.4.0')"
+
 RUN mkdir /results
 WORKDIR /code
 
