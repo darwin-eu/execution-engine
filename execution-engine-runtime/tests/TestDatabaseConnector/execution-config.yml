@@ -1,6 +1,6 @@
 studyId: "0"
 studyTitle: "Test DatabaseConnector"
-engine: "executionengine.azurecr.io/darwin-minimal:v0.1"
+engine: "executionengine.azurecr.io/darwin-base:v0.1"
 entrypoint: "TestDatabaseConnector/main.R"
 params:
   - label: "A string parameter"
