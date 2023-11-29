@@ -32,7 +32,7 @@ baseUrl <- Sys.getenv("WEBAPI_BASEURL")
 # Hard coded parameters
 smallCellCount <- 5
 verboseMode <- FALSE
-resultsFolder <- 'results'
+resultsFolder <- '/results'
 sqlOnly <- FALSE
 
 achillesOutputFolder <- file.path(resultsFolder, 'achilles')

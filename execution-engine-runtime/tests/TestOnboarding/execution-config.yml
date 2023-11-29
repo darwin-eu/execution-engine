@@ -1,7 +1,7 @@
 studyId: "onboarding"
 studyTitle: "Darwin EU Onboarding"
-engine: "darwin-base:v0.1"
-entrypoint: "onboarding/codeToRun.R"
+engine: "executionengine.azurecr.io/darwin-base:v0.1"
+entrypoint: "TestOnboarding/codeToRun.R"
 params:
   - label: "WebAPI URL"
     description: "URL to the WebAPI that your local Atlas instance uses, e.g. http://host.docker.internal:8080/WebAPI"

@@ -87,7 +87,7 @@ export default function CreateSubmission() {
       if (!sourceId || sourceId === 0) {
         doAlert(
           "error",
-          "Please select a data source on which to execute the study",
+          "Please select a data source on which to execute the study.",
         );
       } else if (!currentFile) {
         doAlert("error", "please upload a .zip file with the study in it");
