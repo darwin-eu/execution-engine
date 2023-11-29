@@ -42,7 +42,7 @@ message(paste("Number of persons:", personCount))
 
 readr::write_lines(paste("Number of persons:", personCount), "/results/output.txt")
 
-cdm_disconnect(cdm)
+CDMConnector::cdm_disconnect(cdm)
 
 cli::cat_rule("CDMConnector test complete!")
 

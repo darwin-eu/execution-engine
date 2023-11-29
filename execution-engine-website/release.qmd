@@ -1,0 +1,17 @@
+---
+title: "Release process"
+---
+
+This page outlines the release process for the Darwin/Arachne execution engine.
+
+Checklist
+
+-   Start app locally on developer's computer and run all tests
+
+-   Build and push docker images
+
+-   Run all tests using dockerized app
+
+-   Deploy app to remote testing server and run all tests
+
+-   Create new release
