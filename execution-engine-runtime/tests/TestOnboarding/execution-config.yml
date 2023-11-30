@@ -7,7 +7,7 @@ params:
     description: "URL to the WebAPI that your local Atlas instance uses, e.g. http://host.docker.internal:8080/WebAPI"
     type: "string"
     key: "WEBAPI_BASEURL"
-    value: "...."
+    value: ""
   - label: "Authors"
     description: "Authors in the CdmOnboarding document"
     type: "string"

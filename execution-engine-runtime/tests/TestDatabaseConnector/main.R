@@ -6,8 +6,8 @@ ENV_VARS <- c("DATA_SOURCE_NAME",
               "DBMS_PASSWORD",
               "DBMS_TYPE",
               "CONNECTION_STRING",
-              "DBMS_SCHEMA",
-              "TARGET_SCHEMA",
+              "CDM_SCHEMA",
+              "WRITE_SCHEMA",
               "RESULT_SCHEMA",
               "COHORT_TARGET_TABLE",
               "BQ_KEYFILE",
@@ -16,7 +16,6 @@ ENV_VARS <- c("DATA_SOURCE_NAME",
               "DBMS_SERVER",
               "DBMS_NAME",
               "DBMS_PORT",
-              "DBMS_SCHEMA",
               "CDM_VERSION")
 
 envVars <- lapply(ENV_VARS, Sys.getenv)
@@ -36,18 +35,18 @@ dbmsType   <- envVars[["DBMS_TYPE"]]
 connString <- envVars[["CONNECTION_STRING"]]
 dbmsUser   <- envVars[["DBMS_USERNAME"]]
 dbmsPwd    <- envVars[["DBMS_PASSWORD"]]
-dbmsSchema <- envVars[["DBMS_SCHEMA"]]
+cdmSchema <- envVars[["CDM_SCHEMA"]]
 
 # write results to the /results folder
 
-if (dbmsType != "" && connString != "" && dbmsUser != "" && dbmsSchema != "") {
+if (dbmsType != "" && connString != "" && dbmsUser != "" && cdmSchema != "") {
   print("Setting up db connection")
   conn <- DatabaseConnector::connect(dbms = dbmsType,
                                      connectionString = connString,
                                      user = dbmsUser,
                                      password = dbmsPwd,
                                      pathToDriver = "/opt/hades/jdbc_drivers")
-  personCount <- dbGetQuery(conn, paste0("SELECT COUNT(*) AS n FROM ", dbmsSchema, ".person"))[[1]]
+  personCount <- dbGetQuery(conn, paste0("SELECT COUNT(*) AS n FROM ", cdmSchema, ".person"))[[1]]
   readr::write_lines(paste("Number of persons:", personCount), "/results/output.txt")
   disconnect(conn)
   print("test complete")
