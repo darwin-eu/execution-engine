@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   engine-ui:
-    image: "adamohdsi/execution-engine-ui:v0.1"
+    image: "executionengine.azurecr.io/execution-engine-ui:latest"
     ports:
       - "4200:4200"
     environment:
@@ -15,8 +15,7 @@ services:
 #      - OIDC_REDIRECT_URI=http://localhost:5173/deck-portal
 
   engine-api:
-    image: "adamohdsi/execution-engine-api:latest"
-    # image: "executionengine.azurecr.io/execution-engine-api:latest"
+    image: "executionengine.azurecr.io/execution-engine-api:latest"
     restart: always
     ports:
       - "8083:8083"
