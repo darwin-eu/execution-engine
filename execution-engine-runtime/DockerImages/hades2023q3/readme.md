@@ -12,3 +12,13 @@ docker push executionengine.azurecr.io/hades:2023q3
 docker pull executionengine.azurecr.io/hades:2023q3
 
 docker build -t executionengine.azurecr.io/hades:2023Q3 .
+
+**commands to buld a tar.gz environment for Arachne**
+
+docker run -it --rm -d --name test  executionengine.azurecr.io/hades:2023q3 bash
+docker exec -it test tar --exclude /tmp --exclude /proc --exclude /sys -czf /tmp/hades2023q3.tar.gz /
+docker cp test:/tmp/hades2023q3.tar.gz /tmp/hades2023q3.tar.gz 
+docker stop test
+
+Then use scp to copy to/from other machines
+
