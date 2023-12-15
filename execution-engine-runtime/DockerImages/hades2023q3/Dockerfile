@@ -47,6 +47,33 @@ RUN install2.r --error renv remotes keyring && rm -rf /tmp/download_packages/ /t
 RUN R -e "remotes::install_github('ohdsi/Strategus')"
 RUN R -e "renv::restore()"
 
+# Install python
+RUN apt-get update && apt-get install -y curl git libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN R -e "reticulate::install_miniconda()"
+RUN R -e "reticulate::install_python(version = '3.10')"
+
+# create Python virtual environment used by the OHDSI PatientLevelPrediction R package
+ENV WORKON_HOME="/opt/.virtualenvs"
+RUN R -e "PatientLevelPrediction::configurePython(envname='r-reticulate', envtype='python')"
+
+# Install Strategus modules
+RUN mkdir /opt/strategus_modules
+RUN echo "INSTANTIATED_MODULES_FOLDER=/opt/strategus_modules" >>/usr/local/lib/R/etc/Renviron
+RUN R -e 'Sys.getenv("INSTANTIATED_MODULES_FOLDER")'
+RUN R <<EOF
+library(Strategus)
+# Download Modules Specification files
+analysisSpecificationsUrl <- "https://raw.githubusercontent.com/OHDSI/Strategus/develop/inst/testdata/analysisSpecification.json"
+destinationFile <- file.path(Sys.getenv("INSTANTIATED_MODULES_FOLDER"), "modulesSpecification.json")
+download.file(analysisSpecificationsUrl, destinationFile)
+# Read Modules Specification file
+analysisSpecifications <- ParallelLogger::loadSettingsFromJson(destinationFile)
+# Apply Modules Specification file to download all Modules
+ensureAllModulesInstantiated(analysisSpecifications)
+EOF
+
 RUN mkdir /results
 
 CMD bash
