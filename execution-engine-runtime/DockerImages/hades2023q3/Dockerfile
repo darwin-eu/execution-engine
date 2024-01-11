@@ -44,7 +44,7 @@ RUN apt-get -y update && apt-get install -y libsodium-dev && apt-get clean && rm
 
 # Install Hades packages
 RUN install2.r --error renv remotes keyring && rm -rf /tmp/download_packages/ /tmp/*.rds
-RUN R -e "remotes::install_github('ohdsi/Strategus')"
+RUN R -e "remotes::install_github('ohdsi/Strategus', 'develop')"
 RUN R -e "renv::restore()"
 
 # Install python
@@ -73,6 +73,9 @@ analysisSpecifications <- ParallelLogger::loadSettingsFromJson(destinationFile)
 # Apply Modules Specification file to download all Modules
 ensureAllModulesInstantiated(analysisSpecifications)
 EOF
+
+RUN apt-get update && apt-get install -y python3-dev python3.venv \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /results
 

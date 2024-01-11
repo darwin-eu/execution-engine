@@ -85,6 +85,8 @@ RUN R -e "remotes::install_github('darwin-eu/CdmOnboarding', 'v2.1.0')"
 RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.1.0')"
 RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.4.0')"
 
+RUN install2.r --error devtools && rm -rf /tmp/download_packages/ /tmp/*.rds
+
 # disable rstudio login by default
 ARG DISABLE_AUTH=true
 

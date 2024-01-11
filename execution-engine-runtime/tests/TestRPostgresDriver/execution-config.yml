@@ -1,7 +1,7 @@
 studyId: "1"
-studyTitle: "Test CDMConnector"
+studyTitle: "Test RPostgres driver (only use on postgres)"
 engine: "executionengine.azurecr.io/darwin-base:v0.1"
-entrypoint: "TestCDMConnector/main.R"
+entrypoint: "TestRPostgresDriver/main.R"
 params:
   - label: "stem table"
     description: "asdf"

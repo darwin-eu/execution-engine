@@ -7,8 +7,8 @@ dbms <- Sys.getenv("DBMS_TYPE")
 connectionString <- Sys.getenv("CONNECTION_STRING")
 user <- Sys.getenv("DBMS_USERNAME")
 password <- Sys.getenv("DBMS_PASSWORD")
-cdmDatabaseSchema <- Sys.getenv("DBMS_SCHEMA")
-resultsDatabaseSchema <- Sys.getenv("RESULT_SCHEMA")
+cdmDatabaseSchema <- Sys.getenv("CDM_SCHEMA")
+resultsDatabaseSchema <- Sys.getenv("WRITE_SCHEMA")
 vocabDatabaseSchema <- cdmDatabaseSchema  # TODO?
 cdmVersion <- Sys.getenv("CDM_VERSION")
 numThreads <- 1 # TODO?
@@ -33,8 +33,8 @@ print("Setting up db connection")
 conn <- DatabaseConnector::connect(dbms = dbms,
                                    connectionString = connectionString,
                                    user = user,
-                                   password = password,
-                                   pathToDriver)
+                                   password = password)
+
 personCount <- dbGetQuery(conn, paste0("SELECT COUNT(*) AS n FROM ", cdmDatabaseSchema, ".person"))[[1]]
 readr::write_lines(paste("Number of persons:", personCount), "/results/output.txt")
 disconnect(conn)
