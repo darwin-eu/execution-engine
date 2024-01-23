@@ -17,7 +17,7 @@ RUN install2.r --error DatabaseConnector && rm -rf /tmp/download_packages/ /tmp/
 ENV DATABASECONNECTOR_JAR_FOLDER="/opt/hades/jdbc_drivers"
 RUN R -e "DatabaseConnector::downloadJdbcDrivers('all');"
 
-RUN install2.r --error Andromeda rm -rf /tmp/download_packages/ /tmp/*.rds
+RUN install2.r --error Andromeda && rm -rf /tmp/download_packages/ /tmp/*.rds
 
 # install utility R packages
 RUN apt-get -y update && apt-get install -y \
