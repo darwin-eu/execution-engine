@@ -1,5 +1,5 @@
 FROM --platform=linux/amd64 rocker/rstudio:4.2
-MAINTAINER Adam Black <adam.black@odysseusinc.com>
+MAINTAINER Adam Black <a.black@darwin-eu.org>
 
 # Install java and rJava
 RUN apt-get -y update && apt-get install -y \
@@ -40,7 +40,7 @@ RUN apt-get -y update && apt-get install -y --install-suggests \
 RUN install2.r --error odbc RPostgres duckdb \
    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/2023-11-01"))' >>"${R_HOME}/etc/Rprofile.site"
+RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/2024-01-22"))' >>"${R_HOME}/etc/Rprofile.site"
 
 # Install Darwin packages
 RUN install2.r --error \
@@ -84,8 +84,11 @@ RUN R -e "remotes::install_github('ohdsi/Achilles', 'v1.7.2')"
 RUN R -e "remotes::install_github('darwin-eu/CdmOnboarding', 'v2.1.0')"
 RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.1.0')"
 RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.4.0')"
+RUN R -e "remotes::install_github('darwin-eu/CohortDiagnostics')"
 
 RUN install2.r --error devtools && rm -rf /tmp/download_packages/ /tmp/*.rds
+RUN install2.r --error renv && rm -rf /tmp/download_packages/ /tmp/*.rds
+RUN install2.r --error omopgenerics && rm -rf /tmp/download_packages/ /tmp/*.rds
 
 # disable rstudio login by default
 ARG DISABLE_AUTH=true
