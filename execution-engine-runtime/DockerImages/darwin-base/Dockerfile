@@ -44,6 +44,7 @@ RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux
 
 # Install Darwin packages
 RUN install2.r --error \
+        omopgenerics \
         CDMConnector \
         IncidencePrevalence \
         PatientProfiles \
