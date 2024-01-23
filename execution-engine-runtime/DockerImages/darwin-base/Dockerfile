@@ -1,6 +1,7 @@
 FROM --platform=linux/amd64 rocker/rstudio:4.2
 MAINTAINER Adam Black <a.black@darwin-eu.org>
 
+
 # Install java and rJava
 RUN apt-get -y update && apt-get install -y \
    default-jdk \
@@ -10,17 +11,13 @@ RUN apt-get -y update && apt-get install -y \
    && rm -rf /var/lib/apt/lists/ \
    && sudo R CMD javareconf
 
-RUN install2.r --error rJava \
-&& rm -rf /tmp/download_packages/ /tmp/*.rds
-
-RUN install2.r --error DatabaseConnector \
-&& rm -rf /tmp/download_packages/ /tmp/*.rds
-
+RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/2024-01-22"))' >>"${R_HOME}/etc/Rprofile.site"
+RUN install2.r --error rJava && rm -rf /tmp/download_packages/ /tmp/*.rds
+RUN install2.r --error DatabaseConnector && rm -rf /tmp/download_packages/ /tmp/*.rds
 ENV DATABASECONNECTOR_JAR_FOLDER="/opt/hades/jdbc_drivers"
 RUN R -e "DatabaseConnector::downloadJdbcDrivers('all');"
 
-RUN install2.r --error Andromeda \
-&& rm -rf /tmp/download_packages/ /tmp/*.rds
+RUN install2.r --error Andromeda rm -rf /tmp/download_packages/ /tmp/*.rds
 
 # install utility R packages
 RUN apt-get -y update && apt-get install -y \
@@ -40,8 +37,6 @@ RUN apt-get -y update && apt-get install -y --install-suggests \
 RUN install2.r --error odbc RPostgres duckdb \
    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/2024-01-22"))' >>"${R_HOME}/etc/Rprofile.site"
-
 # Install Darwin packages
 RUN install2.r --error \
         omopgenerics \
@@ -54,7 +49,7 @@ RUN install2.r --error \
 && rm -rf /tmp/download_packages/ /tmp/*.rds
 
 RUN R -e "remotes::install_github('ohdsi/CirceR')"
-# RUN R -e "remotes::install_github('ohdsi/Capr')"
+RUN R -e "remotes::install_github('ohdsi/Capr')"
 
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
@@ -87,10 +82,6 @@ RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.1.0')"
 RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.4.0')"
 RUN R -e "remotes::install_github('darwin-eu/CohortDiagnostics')"
 
-RUN install2.r --error devtools && rm -rf /tmp/download_packages/ /tmp/*.rds
-RUN install2.r --error renv && rm -rf /tmp/download_packages/ /tmp/*.rds
-RUN install2.r --error omopgenerics && rm -rf /tmp/download_packages/ /tmp/*.rds
-
 # disable rstudio login by default
 ARG DISABLE_AUTH=true
 
@@ -99,4 +90,4 @@ WORKDIR /code
 
 CMD bash
 
-# Ubuntu 22.04
+# Ubuntu 22.04 (Jammy)
