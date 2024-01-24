@@ -48,8 +48,14 @@ RUN install2.r --error \
         DrugUtilisation \
 && rm -rf /tmp/download_packages/ /tmp/*.rds
 
-RUN R -e "remotes::install_github('ohdsi/CirceR')"
-RUN R -e "remotes::install_github('ohdsi/Capr')"
+# get github token from envrionment
+# pass this variable in when building the docker image with -e GITHUB_PAT=$GITHUB_PAT
+# This is needed to avoid the github rate limit
+ARG GITHUB_PAT
+ENV GITHUB_PAT=${GITHUB_PAT}
+RUN R -e "stopifnot(nchar('$GITHUB_PAT') > 0)"
+RUN R -e "remotes::install_github('ohdsi/CirceR', auth_token = '$GITHUB_PAT')"
+RUN R -e "remotes::install_github('ohdsi/Capr', auth_token = '$GITHUB_PAT')"
 
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
@@ -77,12 +83,11 @@ RUN sed -i 's/libodbcinst.so.1/libodbcinst.so.2/g' /usr/lib/snowflake/odbc/lib/s
 
 # Install onboarding R packages
 
-#RUN R -e "remotes::install_github('ohdsi/Achilles', 'v1.7.2')"
-RUN R -e "remotes::install_version('Achilles', version = '1.7.2', repos = 'https://repository-dev.darwin-eu.org/ohdsi/latest')"
-# RUN R -e "remotes::install_github('darwin-eu/CdmOnboarding', 'v2.1.0')"
-# RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.1.0')"
-# RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.4.0')"
-# RUN R -e "remotes::install_github('darwin-eu/CohortDiagnostics')"
+RUN R -e "remotes::install_github('ohdsi/Achilles', 'v1.7.2', auth_token = '$GITHUB_PAT')"
+RUN R -e "remotes::install_github('darwin-eu/CdmOnboarding', 'v3.0.0', auth_token = '$GITHUB_PAT')"
+RUN R -e "remotes::install_github('darwin-eu/DashboardExport', 'v1.2.0', auth_token = '$GITHUB_PAT')"
+RUN R -e "remotes::install_github('ohdsi/DataQualityDashboard', 'v2.5.0', auth_token = '$GITHUB_PAT')"
+RUN R -e "remotes::install_github('darwin-eu/CohortDiagnostics')"
 
 # disable rstudio login by default
 ARG DISABLE_AUTH=true
