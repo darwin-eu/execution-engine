@@ -11,7 +11,7 @@ RUN apt-get -y update && apt-get install -y \
    && rm -rf /var/lib/apt/lists/ \
    && sudo R CMD javareconf
 
-RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/2024-01-22"))' >>"${R_HOME}/etc/Rprofile.site"
+RUN echo 'options(repos = c(CRAN = "https://packagemanager.posit.co/cran/__linux__/jammy/2024-01-31"))' >>"${R_HOME}/etc/Rprofile.site"
 RUN install2.r --error rJava && rm -rf /tmp/download_packages/ /tmp/*.rds
 RUN install2.r --error DatabaseConnector && rm -rf /tmp/download_packages/ /tmp/*.rds
 ENV DATABASECONNECTOR_JAR_FOLDER="/opt/hades/jdbc_drivers"
@@ -48,8 +48,13 @@ RUN install2.r --error \
         DrugUtilisation \
 && rm -rf /tmp/download_packages/ /tmp/*.rds
 
-RUN R -e "remotes::install_github('ohdsi/CirceR')"
-RUN R -e "remotes::install_github('ohdsi/Capr')"
+# install OHDSI HADES R packages from CRAN and GitHub, temporarily adding a GitHub Personal Access Token (PAT) to the Renviron file
+# To build this container image, you will need to create a file called GITHUBPAT.txt and populate it with a GitHub Personal Access Token.
+RUN --mount=type=secret,id=build_github_pat \
+	echo "GITHUB_PAT=$(cat /run/secrets/build_github_pat)" >> /usr/local/lib/R/etc/Renviron \
+        && R -e "remotes::install_github('ohdsi/CirceR')" \
+        && R -e "remotes::install_github('ohdsi/Capr')" \
+        && cp /tmp/Renviron /usr/local/lib/R/etc/Renviron
 
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
