@@ -56,7 +56,6 @@ ENV GITHUB_PAT=${GITHUB_PAT}
 RUN R -e "stopifnot(nchar('$GITHUB_PAT') > 0)"
 RUN R -e "remotes::install_github('ohdsi/CirceR', auth_token = '$GITHUB_PAT')"
 RUN R -e "remotes::install_github('ohdsi/Capr', auth_token = '$GITHUB_PAT')"
->>>>>>> c5aaa6538b183befca7a6902e4169fe9105a84e8
 
 RUN echo "DATABASECONNECTOR_JAR_FOLDER=/opt/hades/jdbc_drivers" >> /usr/local/lib/R/etc/Renviron
 RUN echo "RENV_PATHS_CELLAR=/opt/renv_cellar" >> /usr/local/lib/R/etc/Renviron
